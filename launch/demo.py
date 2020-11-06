@@ -4,13 +4,18 @@ import launch.substitutions
 import launch_ros.actions
 
 def generate_launch_description():
+    period_ms = 100
 
     return launch.LaunchDescription([
         launch_ros.actions.Node(
             package='e2e_demo', executable='sensor_dummy', output='screen',
+            name='sensor_dummy_node',
             remappings=[
                 ('input1', 'topic1'),
                 ('input2', 'topic2')
+            ],
+            parameters=[
+                {'period_ms': period_ms}
             ]
         ),
 
@@ -24,6 +29,7 @@ def generate_launch_description():
 
         launch_ros.actions.Node(
             package='e2e_demo', executable='sub_dependency', output='screen',
+            name='sub_dependency_node',
             remappings=[
                 ('input1', 'topic3'),
                 ('input2', 'topic2'),
@@ -36,6 +42,9 @@ def generate_launch_description():
             remappings=[
                 ('input', 'topic4'),
                 ('output', 'topic5')
+            ],
+            parameters=[
+                {'period_ms': period_ms}
             ]
         ),
     ])

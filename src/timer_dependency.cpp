@@ -9,6 +9,11 @@ using namespace std::chrono_literals;
 class TimerDependencyNode : public rclcpp::Node {
  public:
   TimerDependencyNode():Node("timer_dependency_node") {
+    int period_ms;
+    declare_parameter<int>("period_ms", 1000);
+    get_parameter<int>("period_ms", period_ms);
+
+    auto period = std::chrono::milliseconds(period_ms);
     auto sub_callback = [&](sensor_msgs::msg::Image::UniquePtr msg) {
       msg_ = std::move(msg);
     };
@@ -20,7 +25,7 @@ class TimerDependencyNode : public rclcpp::Node {
 
     pub_ = create_publisher<sensor_msgs::msg::Image>("output", 1);
     sub_ = create_subscription<sensor_msgs::msg::Image>("input", 1, sub_callback);
-    timer_ = create_wall_timer(1s, timer_callback);
+    timer_ = create_wall_timer(period, timer_callback);
   }
 
  private:
