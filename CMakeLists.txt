@@ -18,6 +18,9 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(communication_trace REQUIRED)
+
+include_directories(include/)
 
 add_executable(no_dependency src/no_dependency.cpp)
 ament_target_dependencies(no_dependency rclcpp sensor_msgs)
@@ -38,7 +41,7 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME})
 
 add_executable(sensor_dummy src/sensor_dummy.cpp)
-ament_target_dependencies(sensor_dummy rclcpp sensor_msgs)
+ament_target_dependencies(sensor_dummy rclcpp sensor_msgs rcl communication_trace)
 install(TARGETS
   sensor_dummy
   DESTINATION lib/${PROJECT_NAME})
@@ -54,7 +57,6 @@ install(DIRECTORY
   launch
   DESTINATION share/${PROJECT_NAME}
   )
-
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
