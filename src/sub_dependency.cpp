@@ -21,7 +21,7 @@ class SubDependencyNode : public rclcpp::Node {
     auto callback2 = [&](sensor_msgs::msg::Image::UniquePtr msg) {
       sub2_tracer_->publish(msg->header);
       if (msg_) {
-        pub2_tracer_->publish(msg->header);
+        pub2_tracer_->publish(msg_->header);
         pub2_->publish(std::move(msg_));
       }
     };
