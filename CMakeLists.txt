@@ -43,6 +43,12 @@ install(TARGETS
   sensor_dummy
   DESTINATION lib/${PROJECT_NAME})
 
+add_executable(actuator_dummy src/actuator_dummy.cpp)
+ament_target_dependencies(actuator_dummy rclcpp sensor_msgs)
+install(TARGETS
+  actuator_dummy
+  DESTINATION lib/${PROJECT_NAME})
+
 # install launch files
 install(DIRECTORY
   launch
