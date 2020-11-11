@@ -37,11 +37,11 @@ public:
     };
 
     pub1_ = create_publisher<sensor_msgs::msg::Image>("input1", 1);
-    pub1_tracer_ = std::make_shared<CommTracer>(get_name(), pub1_->get_topic_name(), "_pub");
+    pub1_tracer_ = std::make_shared<CommTracer>(get_name(), pub1_->get_topic_name());
     timer1_ = create_wall_timer(period, callback1);
 
     pub2_ = create_publisher<sensor_msgs::msg::Image>("input2", 1);
-    pub2_tracer_ = std::make_shared<CommTracer>(get_name(), pub2_->get_topic_name(), "_pub");
+    pub2_tracer_ = std::make_shared<CommTracer>(get_name(), pub2_->get_topic_name());
     timer2_ = create_wall_timer(period, callback2);
   }
 

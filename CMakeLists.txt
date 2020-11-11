@@ -23,19 +23,19 @@ find_package(communication_trace REQUIRED)
 include_directories(include/)
 
 add_executable(no_dependency src/no_dependency.cpp)
-ament_target_dependencies(no_dependency rclcpp sensor_msgs)
+ament_target_dependencies(no_dependency rclcpp sensor_msgs communication_trace)
 install(TARGETS
   no_dependency
   DESTINATION lib/${PROJECT_NAME})
 
 add_executable(sub_dependency src/sub_dependency.cpp)
-ament_target_dependencies(sub_dependency rclcpp sensor_msgs)
+ament_target_dependencies(sub_dependency rclcpp sensor_msgs communication_trace)
 install(TARGETS
   sub_dependency
   DESTINATION lib/${PROJECT_NAME})
 
 add_executable(timer_dependency src/timer_dependency.cpp)
-ament_target_dependencies(timer_dependency rclcpp sensor_msgs)
+ament_target_dependencies(timer_dependency rclcpp sensor_msgs communication_trace)
 install(TARGETS
   timer_dependency
   DESTINATION lib/${PROJECT_NAME})
@@ -47,7 +47,7 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME})
 
 add_executable(actuator_dummy src/actuator_dummy.cpp)
-ament_target_dependencies(actuator_dummy rclcpp sensor_msgs)
+ament_target_dependencies(actuator_dummy rclcpp sensor_msgs communication_trace)
 install(TARGETS
   actuator_dummy
   DESTINATION lib/${PROJECT_NAME})
