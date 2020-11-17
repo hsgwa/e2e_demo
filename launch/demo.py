@@ -4,7 +4,7 @@ import launch.substitutions
 import launch_ros.actions
 
 def generate_launch_description():
-    period_ms = 100
+    period_ms = 500
 
     return launch.LaunchDescription([
         launch_ros.actions.Node(
