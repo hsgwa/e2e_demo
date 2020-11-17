@@ -1,0 +1,4 @@
+sensor_dummy_node_topic1,actuator_dummy_node_topic5
+sensor_dummy_node_topic2,actuator_dummy_node_topic5
+sensor_dummy_node_topic1,actuator_dummy_node_topic6
+sensor_dummy_node_topic2,actuator_dummy_node_topic6

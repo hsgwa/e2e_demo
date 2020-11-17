@@ -1,0 +1,6 @@
+sensor_dummy_node,no_dependency_node,/topic1
+sensor_dummy_node,sub_dependency_node,/topic2
+no_dependency_node,sub_dependency_node,/topic3
+sub_dependency_node,timer_dependency_node,/topic4
+sub_dependency_node,actuator_dummy_node,/topic5
+timer_dependency_node,actuator_dummy_node,/topic6
