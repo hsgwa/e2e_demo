@@ -19,35 +19,36 @@ find_package(ament_cmake REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(communication_trace REQUIRED)
+find_package(message_trace REQUIRED)
 
 include_directories(include/)
 
 add_executable(no_dependency src/no_dependency.cpp)
-ament_target_dependencies(no_dependency rclcpp sensor_msgs communication_trace)
+ament_target_dependencies(no_dependency rclcpp sensor_msgs communication_trace message_trace)
 install(TARGETS
   no_dependency
   DESTINATION lib/${PROJECT_NAME})
 
 add_executable(sub_dependency src/sub_dependency.cpp)
-ament_target_dependencies(sub_dependency rclcpp sensor_msgs communication_trace)
+ament_target_dependencies(sub_dependency rclcpp sensor_msgs communication_trace message_trace)
 install(TARGETS
   sub_dependency
   DESTINATION lib/${PROJECT_NAME})
 
 add_executable(timer_dependency src/timer_dependency.cpp)
-ament_target_dependencies(timer_dependency rclcpp sensor_msgs communication_trace)
+ament_target_dependencies(timer_dependency rclcpp sensor_msgs communication_trace message_trace)
 install(TARGETS
   timer_dependency
   DESTINATION lib/${PROJECT_NAME})
 
 add_executable(sensor_dummy src/sensor_dummy.cpp)
-ament_target_dependencies(sensor_dummy rclcpp sensor_msgs rcl communication_trace)
+ament_target_dependencies(sensor_dummy rclcpp sensor_msgs rcl communication_trace message_trace)
 install(TARGETS
   sensor_dummy
   DESTINATION lib/${PROJECT_NAME})
 
 add_executable(actuator_dummy src/actuator_dummy.cpp)
-ament_target_dependencies(actuator_dummy rclcpp sensor_msgs communication_trace)
+ament_target_dependencies(actuator_dummy rclcpp sensor_msgs communication_trace message_trace)
 install(TARGETS
   actuator_dummy
   DESTINATION lib/${PROJECT_NAME})
