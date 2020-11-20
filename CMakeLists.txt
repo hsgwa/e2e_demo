@@ -20,6 +20,7 @@ find_package(sensor_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(communication_trace REQUIRED)
 find_package(message_trace REQUIRED)
+find_package(builtin_interfaces REQUIRED)
 
 include_directories(include/)
 
@@ -48,7 +49,7 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME})
 
 add_executable(actuator_dummy src/actuator_dummy.cpp)
-ament_target_dependencies(actuator_dummy rclcpp sensor_msgs communication_trace message_trace)
+ament_target_dependencies(actuator_dummy rclcpp sensor_msgs communication_trace message_trace builtin_interfaces)
 install(TARGETS
   actuator_dummy
   DESTINATION lib/${PROJECT_NAME})

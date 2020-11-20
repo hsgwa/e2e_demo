@@ -5,9 +5,9 @@
 #include "message_trace/message_trace.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/image.hpp"
+#include "builtin_interfaces/msg/time.hpp"
 
 using namespace std::chrono_literals;
-
 using namespace message_trace;
 using namespace communication_trace;
 
@@ -28,16 +28,20 @@ public:
 
       rclcpp::sleep_for(100ms);
 
+      pub2_->publish(msg->header.stamp);
     };
 
     sub1_ = create_subscription<sensor_msgs::msg::Image>("input1", 1, callback1);
     sub2_ = create_subscription<sensor_msgs::msg::Image>("input2", 1, callback2);
 
     com_sub1_tracer_ = std::make_shared<CommTrace>(get_name(), sub1_->get_topic_name());
-    com_sub2_tracer_ = std::make_shared<CommTrace>(get_name(), sub2_->get_topic_name());
+    com_sub2_tracer_ = std::make_shared<CommTrace>(get_name(), sub2->get_topic_name());
 
     msg_sub1_tracer_ = std::make_shared<MessageTrace>(get_name(), sub1_->get_topic_name());
     msg_sub2_tracer_ = std::make_shared<MessageTrace>(get_name(), sub2_->get_topic_name());
+
+    pub1_ = create_publisher<builtin_interfaces::msg::Time>("output1", 1);
+    pub2_ = create_publisher<builtin_interfaces::msg::Time>("output2", 1);
   }
 
   std::shared_ptr<CommTrace> com_sub1_tracer_;
@@ -46,9 +50,13 @@ public:
   std::shared_ptr<MessageTrace> msg_sub1_tracer_;
   std::shared_ptr<MessageTrace> msg_sub2_tracer_;
 
+
 private:
   rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr sub1_;
   rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr sub2_;
+
+  rclcpp::Publisher<builtin_interfaces::msg::Time>::SharedPtr pub1_;
+  rclcpp::Publisher<builtin_interfaces::msg::Time>::SharedPtr pub2_;
 };
 
 int main(int argc, char *argv[]) {

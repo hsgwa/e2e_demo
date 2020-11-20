@@ -51,7 +51,9 @@ def generate_launch_description():
             package='e2e_demo', executable='actuator_dummy', output='screen',
             remappings=[
                 ('input1', 'topic5'),
-                ('input2', 'topic6')
+                ('input2', 'topic6'),
+                ('output1', 'topic5_result'),
+                ('output2', 'topic6_result'),
             ],
         ),
     ])
