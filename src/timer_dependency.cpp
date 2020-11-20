@@ -21,9 +21,14 @@ class TimerDependencyNode : public rclcpp::Node {
     auto sub_callback = [&](sensor_msgs::msg::Image::UniquePtr msg) {
       com_sub_tracer_->publish(msg->header);
       msg_sub_tracer_->update(&msg->header);
+
+      rclcpp::sleep_for(100ms);
+
       msg_ = std::move(msg);
     };
     auto timer_callback = [&]() {
+      rclcpp::sleep_for(100ms);
+
       if (msg_) {
         com_pub_tracer_->publish(msg_->header);
         msg_pub_tracer_->update(&msg_->header);

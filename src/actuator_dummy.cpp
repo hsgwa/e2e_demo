@@ -17,11 +17,17 @@ public:
     auto callback1 = [&](sensor_msgs::msg::Image::UniquePtr msg) {
       com_sub1_tracer_->publish(msg->header);
       msg_sub1_tracer_->update(&msg->header);
+
+      rclcpp::sleep_for(100ms);
+      pub1_->publish(msg->header.stamp);
     };
 
     auto callback2 = [&](sensor_msgs::msg::Image::UniquePtr msg) {
       com_sub2_tracer_->publish(msg->header);
       msg_sub2_tracer_->update(&msg->header);
+
+      rclcpp::sleep_for(100ms);
+
     };
 
     sub1_ = create_subscription<sensor_msgs::msg::Image>("input1", 1, callback1);

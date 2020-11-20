@@ -22,6 +22,8 @@ public:
       auto msg = std::make_unique<sensor_msgs::msg::Image>();
       msg->header.stamp = now();
 
+      rclcpp::sleep_for(100ms);
+
       msg_pub1_tracer_->update(&msg->header);
       com_pub1_tracer_->publish(msg->header);
       pub1_->publish(std::move(msg));
@@ -30,6 +32,8 @@ public:
     auto callback2 = [&]() {
       auto msg = std::make_unique<sensor_msgs::msg::Image>();
       msg->header.stamp = now();
+
+      rclcpp::sleep_for(100ms);
 
       msg_pub2_tracer_->update(&msg->header);
       com_pub2_tracer_->publish(msg->header);

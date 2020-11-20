@@ -6,6 +6,7 @@
 #include "sensor_msgs/msg/image.hpp"
 #include "message_trace/message_trace.hpp"
 
+using namespace std::chrono_literals;
 using namespace message_trace;
 using namespace communication_trace;
 
@@ -19,6 +20,8 @@ class SubDependencyNode : public rclcpp::Node {
       auto msg_tmp = std::make_unique<sensor_msgs::msg::Image>();
       msg_tmp->header.stamp = msg->header.stamp;
 
+      rclcpp::sleep_for(100ms);
+
       msg_pub1_tracer_->update(&msg->header);
       com_pub1_tracer_->publish(msg->header);
       pub1_->publish(std::move(msg_tmp));
@@ -29,6 +32,7 @@ class SubDependencyNode : public rclcpp::Node {
       com_sub2_tracer_->publish(msg->header);
       msg_sub2_tracer_->update(&msg->header);
 
+      rclcpp::sleep_for(100ms);
 
       if (msg_) {
         msg_pub2_tracer_->update(&msg_->header, &msg->header);

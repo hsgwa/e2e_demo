@@ -8,6 +8,7 @@
 
 #include "std_msgs/msg/header.hpp"
 
+using namespace std::chrono_literals;
 using namespace message_trace;
 using namespace communication_trace;
 
@@ -17,6 +18,8 @@ class NoDependencyNode : public rclcpp::Node {
     auto callback = [&](sensor_msgs::msg::Image::UniquePtr msg) {
       com_sub_tracer_->publish(msg->header);
       msg_sub_tracer_->update(&msg->header);
+
+      rclcpp::sleep_for(100ms);
 
       msg_pub_tracer_->update(&msg->header);
       com_pub_tracer_->publish(msg->header);
