@@ -1,0 +1,173 @@
+{
+    "nodes": [
+        {
+            "name" : "/sensor_dummy_node",
+            "start_node" : true,
+            "callbacks": [
+                {
+                    "name": "callback1",
+                    "type": "timer",
+                    "latency": "latency/sample.csv",
+                    "latency_type": "histogram",
+                    "publish": [
+                        {
+                            "topic_name": "/topic1"
+                        }
+                    ]
+                },
+                {
+                    "name": "callback1",
+                    "type": "timer",
+                    "latency": "latency/sample_series.csv",
+                    "latency_type": "timeseries",
+                    "publish": [
+                        {
+                            "topic_name": "/topic2"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "/no_dependency_node",
+            "callbacks": [
+                {
+                    "name": "callback1",
+                    "type": "subscribe",
+                    "topic_name": "/topic1",
+                    "latency": "latency/sample_series.csv",
+                    "latency_type": "timeseries",
+                    "publish": [{
+                        "topic_name": "/topic3"
+                    }]
+                }
+            ]
+        },
+        {
+            "name": "/sub_dependency_node",
+            "callbacks": [
+                {
+                    "name": "subscribe1",
+                    "type": "subscribe",
+                    "topic_name": "/topic3",
+                    "latency": "latency/sample_series.csv",
+                    "latency_type": "timeseries",
+                    "publish": [
+                        {"topic_name": "/topic4"}
+                    ]
+                },
+                {
+                    "name": "subscribe2",
+                    "type": "subscribe",
+                    "topic_name": "/topic2",
+                    "latency": "latency/sample_series.csv",
+                    "latency_type": "timeseries",
+                    "publish": [
+                        {"topic_name": "/topic5"}
+                    ]
+                }
+            ],
+            "execution": [
+                {
+                    "from": "subscribe1",
+                    "to": "subscribe2",
+                    "latency": "latency/sample_series.csv",
+                    "latency_type": "timeseries"
+                }
+            ]
+        },
+        {
+            "name": "/timer_dependency_node",
+            "callbacks": [
+                {
+                    "name": "subscribe1",
+                    "type": "subscribe",
+                    "topic_name": "/topic4",
+                    "latency": "latency/sample_series.csv",
+                    "latency_type": "timeseries"
+                },
+                {
+                    "name": "timer1",
+                    "type": "timer",
+                    "latency": "latency/sample_series.csv",
+                    "latency_type": "timeseries",
+                    "publish": [
+                        {"topic_name": "/topic6"}
+                    ]
+                }
+            ],
+            "execution": [
+                {
+                    "from": "subscribe1",
+                    "to": "timer1",
+                    "latency": "latency/sample_series.csv",
+                    "latency_type": "timeseries"
+                }
+            ]
+        },
+        {
+            "name": "/actuator_dummy_node",
+            "end_node" : true,
+            "callbacks": [
+                {
+                    "name": "subscribe1",
+                    "type": "subscribe",
+                    "topic_name": "/topic5",
+                    "latency": "latency/sample_series.csv",
+                    "latency_type": "timeseries"
+                },
+                {
+                    "name": "subscribe2",
+                    "type": "subscribe",
+                    "topic_name": "/topic6",
+                    "latency": "latency/sample_series.csv",
+                    "latency_type": "timeseries"
+                }
+            ]
+        }
+    ],
+    "communication": [
+        {
+            "topic_name": "/topic1",
+            "publisher": "/sensor_dummy_node",
+            "subscriber": "/no_dependency_node",
+            "latency": "latency/sample_series.csv",
+            "latency_type": "timeseries"
+        },
+        {
+            "topic_name": "/topic2",
+            "publisher": "/sensor_dummy_node",
+            "subscriber": "/sub_dependency_node",
+            "latency": "latency/sample_series.csv",
+            "latency_type": "timeseries"
+        },
+        {
+            "topic_name": "/topic3",
+            "publisher": "/no_dependency_node",
+            "subscriber": "/sub_dependency_node",
+            "latency": "latency/sample_series.csv",
+            "latency_type": "timeseries"
+        },
+        {
+            "topic_name": "/topic4",
+            "publisher": "/sub_dependency_node",
+            "subscriber": "/timer_dependency_node",
+            "latency": "latency/sample_series.csv",
+            "latency_type": "timeseries"
+        },
+        {
+            "topic_name": "/topic5",
+            "publisher": "/sub_dependency_node",
+            "subscriber": "/actuator_dummy_node",
+            "latency": "latency/sample_series.csv",
+            "latency_type": "timeseries"
+        },
+        {
+            "topic_name": "/topic6",
+            "publisher": "/timer_dependency_node",
+            "subscriber": "/actuator_dummy_node",
+            "latency": "latency/sample_series.csv",
+            "latency_type": "timeseries"
+        }
+    ]
+}
