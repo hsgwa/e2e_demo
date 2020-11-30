@@ -5,9 +5,9 @@
             "start_node" : true,
             "callbacks": [
                 {
-                    "name": "callback1",
                     "type": "timer",
-                    "latency": "latency/sample.csv",
+                    "timer_duration_ns": "1000000000",
+                    "latency": "./result/node/sensor_dummy_node/timer_callback1.csv",
                     "latency_type": "histogram",
                     "publish": [
                         {
@@ -16,9 +16,9 @@
                     ]
                 },
                 {
-                    "name": "callback1",
                     "type": "timer",
-                    "latency": "latency/sample_series.csv",
+                    "timer_duration_ns": "1000000000",
+                    "latency": "./result/node/sensor_dummy_node/timer_callback2.csv",
                     "latency_type": "timeseries",
                     "publish": [
                         {
@@ -32,10 +32,9 @@
             "name": "/no_dependency_node",
             "callbacks": [
                 {
-                    "name": "callback1",
                     "type": "subscribe",
                     "topic_name": "/topic1",
-                    "latency": "latency/sample_series.csv",
+                    "latency": "./result/node/no_dependency_node/subscribe_callback1.csv",
                     "latency_type": "timeseries",
                     "publish": [{
                         "topic_name": "/topic3"
@@ -47,20 +46,18 @@
             "name": "/sub_dependency_node",
             "callbacks": [
                 {
-                    "name": "subscribe1",
                     "type": "subscribe",
                     "topic_name": "/topic3",
-                    "latency": "latency/sample_series.csv",
+                    "latency": "./result/node/no_dependency_node/subscribe_callback1.csv",
                     "latency_type": "timeseries",
                     "publish": [
                         {"topic_name": "/topic4"}
                     ]
                 },
                 {
-                    "name": "subscribe2",
                     "type": "subscribe",
                     "topic_name": "/topic2",
-                    "latency": "latency/sample_series.csv",
+                    "latency": "./result/node/no_dependency_node/subscribe_callback2.csv",
                     "latency_type": "timeseries",
                     "publish": [
                         {"topic_name": "/topic5"}
@@ -69,9 +66,9 @@
             ],
             "execution": [
                 {
-                    "from": "subscribe1",
-                    "to": "subscribe2",
-                    "latency": "latency/sample_series.csv",
+                    "from": "subscribe_topic3",
+                    "to": "subscribe_topic2",
+                    "latency": "./result/node/sub_dependency_node/subscribe_topic3_to_subscribe_topic2.csv",
                     "latency_type": "timeseries"
                 }
             ]
@@ -80,16 +77,15 @@
             "name": "/timer_dependency_node",
             "callbacks": [
                 {
-                    "name": "subscribe1",
                     "type": "subscribe",
                     "topic_name": "/topic4",
-                    "latency": "latency/sample_series.csv",
+                    "latency": "./result/node/timer_dependency_node/callback_subscribe1.csv",
                     "latency_type": "timeseries"
                 },
                 {
-                    "name": "timer1",
                     "type": "timer",
-                    "latency": "latency/sample_series.csv",
+                    "timer_duration_ns": "1000000000",
+                    "latency": "./result/node/timer_dependency_node/callback_timer1.csv",
                     "latency_type": "timeseries",
                     "publish": [
                         {"topic_name": "/topic6"}
@@ -98,9 +94,9 @@
             ],
             "execution": [
                 {
-                    "from": "subscribe1",
-                    "to": "timer1",
-                    "latency": "latency/sample_series.csv",
+                    "from": "subscribe_subscribe1",
+                    "to": "timer_1000000000",
+                    "latency": "./result/callback/timer_dependency_node/subscribe_subscribe1_to_timer_1000000000.csv",
                     "latency_type": "timeseries"
                 }
             ]
@@ -110,14 +106,12 @@
             "end_node" : true,
             "callbacks": [
                 {
-                    "name": "subscribe1",
                     "type": "subscribe",
                     "topic_name": "/topic5",
                     "latency": "latency/sample_series.csv",
                     "latency_type": "timeseries"
                 },
                 {
-                    "name": "subscribe2",
                     "type": "subscribe",
                     "topic_name": "/topic6",
                     "latency": "latency/sample_series.csv",
