@@ -35,7 +35,7 @@ public:
     sub2_ = create_subscription<sensor_msgs::msg::Image>("input2", 1, callback2);
 
     com_sub1_tracer_ = std::make_shared<CommTrace>(get_name(), sub1_->get_topic_name());
-    com_sub2_tracer_ = std::make_shared<CommTrace>(get_name(), sub2->get_topic_name());
+    com_sub2_tracer_ = std::make_shared<CommTrace>(get_name(), sub2_->get_topic_name());
 
     msg_sub1_tracer_ = std::make_shared<MessageTrace>(get_name(), sub1_->get_topic_name());
     msg_sub2_tracer_ = std::make_shared<MessageTrace>(get_name(), sub2_->get_topic_name());
