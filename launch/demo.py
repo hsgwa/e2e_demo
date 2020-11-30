@@ -4,7 +4,7 @@ import launch.substitutions
 import launch_ros.actions
 
 def generate_launch_description():
-    period_ms = 500
+    period_ns = 500000000
 
     return launch.LaunchDescription([
         launch_ros.actions.Node(
@@ -14,7 +14,7 @@ def generate_launch_description():
                 ('input2', 'topic2')
             ],
             parameters=[
-                {'period_ms': period_ms}
+                {'period_ns': period_ns}
             ]
         ),
 
@@ -43,7 +43,7 @@ def generate_launch_description():
                 ('output', 'topic6')
             ],
             parameters=[
-                {'period_ms': period_ms}
+                {'period_ns': period_ns}
             ]
         ),
 

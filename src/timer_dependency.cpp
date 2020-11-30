@@ -13,11 +13,11 @@ using namespace communication_trace;
 class TimerDependencyNode : public rclcpp::Node {
  public:
   TimerDependencyNode():Node("timer_dependency_node") {
-    int period_ms;
-    declare_parameter<int>("period_ms", 1000);
-    get_parameter<int>("period_ms", period_ms);
+    int period_ns;
+    declare_parameter<int>("period_ns", 1000);
+    get_parameter<int>("period_ns", period_ns);
 
-    auto period = std::chrono::milliseconds(period_ms);
+    auto period = std::chrono::nanoseconds(period_ns);
     auto sub_callback = [&](sensor_msgs::msg::Image::UniquePtr msg) {
       com_sub_tracer_->publish(msg->header);
       msg_sub_tracer_->update(&msg->header);
