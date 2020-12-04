@@ -17,11 +17,13 @@ public:
     auto callback1 = [&]() {
       auto msg = std::make_unique<sensor_msgs::msg::Image>();
       msg->header.stamp = now();
+      rclcpp::sleep_for(100ms);
       pub1_->publish(std::move(msg));
     };
     auto callback2 = [&]() {
       auto msg = std::make_unique<sensor_msgs::msg::Image>();
       msg->header.stamp = now();
+      rclcpp::sleep_for(100ms);
       pub2_->publish(std::move(msg));
     };
     pub1_ = create_publisher<sensor_msgs::msg::Image>("input1", 1);

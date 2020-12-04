@@ -4,6 +4,8 @@
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/image.hpp"
 
+using namespace std::chrono_literals;
+
 class SubDependencyNode : public rclcpp::Node {
  public:
   SubDependencyNode():Node("sub_dependency_node") {
@@ -11,11 +13,13 @@ class SubDependencyNode : public rclcpp::Node {
 
       auto msg_tmp = std::make_unique<sensor_msgs::msg::Image>();
       msg_tmp->header.stamp = msg->header.stamp;
+      rclcpp::sleep_for(100ms);
       pub1_->publish(std::move(msg_tmp));
 
       msg_ = std::move(msg);
     };
     auto callback2 = [&](sensor_msgs::msg::Image::UniquePtr msg) {
+        rclcpp::sleep_for(100ms);
         if (msg_) {
           pub2_->publish(std::move(msg_));
         }

@@ -4,11 +4,14 @@
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/image.hpp"
 
+using namespace std::chrono_literals;
+
 class NoDependencyNode : public rclcpp::Node {
  public:
   NoDependencyNode():Node("no_dependency_node") {
     auto callback =
         [&](sensor_msgs::msg::Image::UniquePtr msg) {
+          rclcpp::sleep_for(100ms);
           pub_->publish(std::move(msg));
         };
     sub_ = create_subscription<sensor_msgs::msg::Image>("input", 1, callback);

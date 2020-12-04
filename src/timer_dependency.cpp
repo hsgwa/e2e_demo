@@ -15,9 +15,11 @@ class TimerDependencyNode : public rclcpp::Node {
 
     auto period = std::chrono::milliseconds(period_ms);
     auto sub_callback = [&](sensor_msgs::msg::Image::UniquePtr msg) {
+      rclcpp::sleep_for(100ms);
       msg_ = std::move(msg);
     };
     auto timer_callback = [&]() {
+                            rclcpp::sleep_for(100ms);
                             if (msg_) {
                               pub_->publish(std::move(msg_));
                             }

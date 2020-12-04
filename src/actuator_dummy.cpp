@@ -9,9 +9,15 @@ using namespace std::chrono_literals;
 class ActuatorDummy : public rclcpp::Node {
 public:
   ActuatorDummy() : Node("actuator_dummy_node") {
-    auto callback1 = [&](sensor_msgs::msg::Image::UniquePtr msg) {(void)msg;};
+    auto callback1 = [&](sensor_msgs::msg::Image::UniquePtr msg) {
+                       (void)msg;
+                       rclcpp::sleep_for(100ms);
+                     };
 
-    auto callback2 = [&](sensor_msgs::msg::Image::UniquePtr msg) {(void)msg;};
+    auto callback2 = [&](sensor_msgs::msg::Image::UniquePtr msg) {
+                       (void)msg;
+                       rclcpp::sleep_for(100ms);
+                     };
 
     sub1_ = create_subscription<sensor_msgs::msg::Image>("input1", 1, callback1);
     sub2_ = create_subscription<sensor_msgs::msg::Image>("input2", 1, callback2);
