@@ -17,16 +17,21 @@ public:
     auto period1 = std::chrono::nanoseconds(period1_ns);
     auto period2 = std::chrono::nanoseconds(period2_ns);
 
+    int callback_duration_ns;
+    declare_parameter<int>("callback_duration_ns", 100000000);
+    get_parameter<int>("callback_duration_ns", callback_duration_ns);
+    callback_duration_ = std::chrono::nanoseconds(callback_duration_ns);
+
     auto callback1 = [&]() {
       auto msg = std::make_unique<sensor_msgs::msg::Image>();
       msg->header.stamp = now();
-      rclcpp::sleep_for(100ms);
+      rclcpp::sleep_for(callback_duration_);
       pub1_->publish(std::move(msg));
     };
     auto callback2 = [&]() {
       auto msg = std::make_unique<sensor_msgs::msg::Image>();
       msg->header.stamp = now();
-      rclcpp::sleep_for(100ms);
+      rclcpp::sleep_for(callback_duration_);
       pub2_->publish(std::move(msg));
     };
     pub1_ = create_publisher<sensor_msgs::msg::Image>("input1", 1);
@@ -36,6 +41,7 @@ public:
   }
 
 private:
+  std::chrono::nanoseconds callback_duration_;
   rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr pub1_;
   rclcpp::TimerBase::SharedPtr timer1_;
   rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr pub2_;

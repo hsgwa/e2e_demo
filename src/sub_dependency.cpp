@@ -9,17 +9,24 @@ using namespace std::chrono_literals;
 class SubDependencyNode : public rclcpp::Node {
  public:
   SubDependencyNode():Node("sub_dependency_node") {
+
+    int callback_duration_ns;
+    declare_parameter<int>("callback_duration_ns", 100000000);
+    get_parameter<int>("callback_duration_ns", callback_duration_ns);
+    callback_duration_ = std::chrono::nanoseconds(callback_duration_ns);
+
     auto callback1 = [&](sensor_msgs::msg::Image::UniquePtr msg) {
 
       auto msg_tmp = std::make_unique<sensor_msgs::msg::Image>();
       msg_tmp->header.stamp = msg->header.stamp;
-      rclcpp::sleep_for(100ms);
+      rclcpp::sleep_for(callback_duration_);
       pub1_->publish(std::move(msg_tmp));
 
       msg_ = std::move(msg);
     };
     auto callback2 = [&](sensor_msgs::msg::Image::UniquePtr msg) {
-        rclcpp::sleep_for(100ms);
+        (void) msg;
+        rclcpp::sleep_for(callback_duration_);
         if (msg_) {
           pub2_->publish(std::move(msg_));
         }
@@ -31,6 +38,7 @@ class SubDependencyNode : public rclcpp::Node {
   }
 
  private:
+  std::chrono::nanoseconds callback_duration_;
   rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr pub1_;
   rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr pub2_;
   rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr sub1_;

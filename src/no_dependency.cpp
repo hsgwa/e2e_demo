@@ -9,9 +9,15 @@ using namespace std::chrono_literals;
 class NoDependencyNode : public rclcpp::Node {
  public:
   NoDependencyNode():Node("no_dependency_node") {
+
+    int callback_duration_ns;
+    declare_parameter<int>("callback_duration_ns", 100000000);
+    get_parameter<int>("callback_duration_ns", callback_duration_ns);
+    callback_duration_ = std::chrono::nanoseconds(callback_duration_ns);
+
     auto callback =
         [&](sensor_msgs::msg::Image::UniquePtr msg) {
-          rclcpp::sleep_for(100ms);
+          rclcpp::sleep_for(callback_duration_);
           pub_->publish(std::move(msg));
         };
     sub_ = create_subscription<sensor_msgs::msg::Image>("input", 1, callback);
@@ -19,6 +25,7 @@ class NoDependencyNode : public rclcpp::Node {
   }
 
  private:
+  std::chrono::nanoseconds callback_duration_;
   rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr pub_;
   rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr sub_;
 };

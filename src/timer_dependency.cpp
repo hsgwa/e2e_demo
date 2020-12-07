@@ -13,13 +13,18 @@ class TimerDependencyNode : public rclcpp::Node {
     declare_parameter<int>("period_ns", 1000000000);
     get_parameter<int>("period_ns", period_ns);
 
+    int callback_duration_ns;
+    declare_parameter<int>("callback_duration_ns", 100000000);
+    get_parameter<int>("callback_duration_ns", callback_duration_ns);
+    callback_duration_ = std::chrono::nanoseconds(callback_duration_ns);
+
     auto period = std::chrono::nanoseconds(period_ns);
     auto sub_callback = [&](sensor_msgs::msg::Image::UniquePtr msg) {
-      rclcpp::sleep_for(100ms);
+      rclcpp::sleep_for(callback_duration_);
       msg_ = std::move(msg);
     };
     auto timer_callback = [&]() {
-                            rclcpp::sleep_for(100ms);
+                            rclcpp::sleep_for(callback_duration_);
                             if (msg_) {
                               pub_->publish(std::move(msg_));
                             }
@@ -31,6 +36,7 @@ class TimerDependencyNode : public rclcpp::Node {
   }
 
  private:
+  std::chrono::nanoseconds callback_duration_;
   rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr pub_;
   rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr sub_;
   sensor_msgs::msg::Image::UniquePtr msg_;

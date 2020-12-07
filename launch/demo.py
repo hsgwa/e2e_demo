@@ -4,9 +4,10 @@ import launch.substitutions
 import launch_ros.actions
 
 def generate_launch_description():
-    period1_ns = 1.0e9
-    period2_ns = 1.0e9
-    timer_period_ns = 1.0e9
+    period1_ns = int(1.0/3.0*1.0e9)
+    period2_ns = int(1.0/7.0*1.0e9)
+    timer_period_ns = int(1.0/11.0*1.0e9)
+    callback_duration_ns = int(0.01*1.0e9)
 
 
     return launch.LaunchDescription([
@@ -19,6 +20,7 @@ def generate_launch_description():
             parameters=[
                 {'period1_ns': period1_ns},
                 {'period2_ns': period2_ns},
+                {'callback_duration_ns': callback_duration_ns}
             ]
         ),
 
@@ -26,7 +28,10 @@ def generate_launch_description():
             package='e2e_demo', executable='no_dependency', output='screen',
             remappings=[
                 ('input', 'topic1'),
-                ('output', 'topic3')
+                ('output', 'topic3'),
+            ],
+            parameters=[
+                {'callback_duration_ns': callback_duration_ns}
             ]
         ),
 
@@ -37,6 +42,9 @@ def generate_launch_description():
                 ('input2', 'topic2'),
                 ('output1', 'topic4'),
                 ('output2', 'topic5'),
+            ],
+            parameters=[
+                {'callback_duration_ns': callback_duration_ns}
             ]
         ),
 
@@ -47,7 +55,8 @@ def generate_launch_description():
                 ('output', 'topic6')
             ],
             parameters=[
-                {'period_ns': timer_period_ns}
+                {'period_ns': timer_period_ns},
+                {'callback_duration_ns': callback_duration_ns}
             ]
         ),
 
