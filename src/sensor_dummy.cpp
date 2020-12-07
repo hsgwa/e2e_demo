@@ -9,10 +9,13 @@ using namespace std::chrono_literals;
 class SensorDummy : public rclcpp::Node {
 public:
   SensorDummy() : Node("sensor_dummy_node") {
-    int period_ns;
-    declare_parameter<int>("period_ns", 1000000000);
-    get_parameter<int>("period_ns", period_ns);
-    auto period = std::chrono::nanoseconds(period_ns);
+    int period1_ns, period2_ns;
+    declare_parameter<int>("period1_ns", 1000000000);
+    declare_parameter<int>("period2_ns", 1000000000);
+    get_parameter<int>("period1_ns", period1_ns);
+    get_parameter<int>("period2_ns", period2_ns);
+    auto period1 = std::chrono::nanoseconds(period1_ns);
+    auto period2 = std::chrono::nanoseconds(period2_ns);
 
     auto callback1 = [&]() {
       auto msg = std::make_unique<sensor_msgs::msg::Image>();
@@ -27,9 +30,9 @@ public:
       pub2_->publish(std::move(msg));
     };
     pub1_ = create_publisher<sensor_msgs::msg::Image>("input1", 1);
-    timer1_ = create_wall_timer(period, callback1);
+    timer1_ = create_wall_timer(period1, callback1);
     pub2_ = create_publisher<sensor_msgs::msg::Image>("input2", 1);
-    timer2_ = create_wall_timer(period, callback2);
+    timer2_ = create_wall_timer(period2, callback2);
   }
 
 private:
