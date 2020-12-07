@@ -9,6 +9,8 @@ def generate_launch_description():
 
     return launch.LaunchDescription([
         launch_ros.actions.Node(
+            package='communication_aggregate', executable='aggregate', output='screen'),
+        launch_ros.actions.Node(
             package='e2e_demo', executable='sensor_dummy', output='screen',
             remappings=[
                 ('input1', 'topic1'),
