@@ -14,7 +14,7 @@ class TimerDependencyNode : public rclcpp::Node {
  public:
   TimerDependencyNode():Node("timer_dependency_node") {
     int period_ns;
-    declare_parameter<int>("period_ns", 1000);
+    declare_parameter<int>("period_ns", 100000000);
     get_parameter<int>("period_ns", period_ns);
 
     auto period = std::chrono::nanoseconds(period_ns);

@@ -5,6 +5,7 @@ import launch_ros.actions
 
 def generate_launch_description():
     period_ns = 500000000
+    timer_period_ns = 100000000
 
     return launch.LaunchDescription([
         launch_ros.actions.Node(
@@ -43,7 +44,7 @@ def generate_launch_description():
                 ('output', 'topic6')
             ],
             parameters=[
-                {'period_ns': period_ns}
+                {'period_ns': timer_period_ns}
             ]
         ),
 

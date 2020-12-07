@@ -13,10 +13,10 @@ using namespace communication_trace;
 class SensorDummy : public rclcpp::Node {
 public:
   SensorDummy() : Node("sensor_dummy_node") {
-    int period_ms;
-    declare_parameter<int>("period_ms", 1000);
-    get_parameter<int>("period_ms", period_ms);
-    auto period = std::chrono::milliseconds(period_ms);
+    int period_ns;
+    declare_parameter<int>("period_ns", 1000000000);
+    get_parameter<int>("period_ns", period_ns);
+    auto period = std::chrono::nanoseconds(period_ns);
 
     auto callback1 = [&]() {
       auto msg = std::make_unique<sensor_msgs::msg::Image>();
