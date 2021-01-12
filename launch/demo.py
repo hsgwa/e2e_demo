@@ -66,5 +66,8 @@ def generate_launch_description():
                 ('input1', 'topic5'),
                 ('input2', 'topic6')
             ],
+            parameters=[
+                {'callback_duration_ns': callback_duration_ns}
+            ]
         ),
     ])
