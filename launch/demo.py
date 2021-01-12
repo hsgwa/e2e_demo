@@ -4,11 +4,10 @@ import launch.substitutions
 import launch_ros.actions
 
 def generate_launch_description():
-    period1_ns = int(1.0/3.0*1.0e9)
+    period1_ns = int(1.0/11.0*1.0e9)
     period2_ns = int(1.0/7.0*1.0e9)
-    timer_period_ns = int(1.0/11.0*1.0e9)
+    timer_period_ns = int(1.0/3.0*1.0e9)
     callback_duration_ns = int(0.01*1.0e9)
-
 
     return launch.LaunchDescription([
         launch_ros.actions.Node(
