@@ -40,8 +40,8 @@ def generate_launch_description():
             remappings=[
                 ('input1', 'topic3'),
                 ('input2', 'topic2'),
-                ('output1', 'topic4'),
-                ('output2', 'topic5'),
+                ('output1', 'topic5'),
+                ('output2', 'topic4'),
             ],
             parameters=[
                 {'callback_duration_ns': callback_duration_ns}
