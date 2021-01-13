@@ -75,3 +75,15 @@ see these samples below.
 - e2e_latency.ipynb
 - flame_graph.ipynb
 - node_latency.ipynb
+
+## Setup callback dependency
+To calculate node latency, this scripts uses architecture.json to recognize callback dependency.
+This section describes how to setup callback dependency.
+
+### create template file
+A template file can be generated from trace data.
+see 'analysis/create_architecture_template.inpynb' to generate architecture.json.template
+
+### write callback dependency
+Edit architecture.json.template and save as architecute.json.
+Add subsequent callback symbol to "subsequent_callback_symbols".
