@@ -87,3 +87,143 @@ see 'analysis/create_architecture_template.inpynb' to generate architecture.json
 ### write callback dependency
 Edit architecture.json.template and save as architecute.json.
 Add subsequent callback symbol to "subsequent_callback_symbols".
+
+---
+
+
+
+## architecture.json のフォーマット
+
+// 以降をコメントとしてお読みください。　
+コメントの先頭に ※ がある項目が手動での変更が必要になる項目です。
+
+```json
+
+
+{
+  "nodes": [ 
+    {
+      "name": "callback name [string]",   // コールバック名[string]
+      "namespace": "name space [string]", // ノードの名前空間[string]
+      "start_node": true / false [bool],  // ※ End-to-End の開始ノードフラグ
+      "end_node": true / false [bool],    // ※ End-to-End の終了ノードフラグ
+      "callbacks": [
+        {
+          "type": "timer_callback [string]",         // コールバックの種類（timer コールバックの場合）
+          "period": 100 [float],                     // タイマーコールバックの周期
+          "symbol": "timer_callback_symbol [string], // コールバックのシンボル名
+          "publish_topic_names": [                   // コールバックが publish するトピックのリスト
+            "/topic_name" [string],                  // ※ トピック名
+		  ]
+          "subsequent_callback_symbols": [           // ノード内で後続するコールバックのリスト
+		                                             // 後続するコールバックのシンボル名をコピーする。
+            "subscribe_callback_symbol" [string],    // ※ コールバックのシンボル名
+			                                         // 例では、timer -> subscribe の依存を記述しています。
+		  ],
+        },
+        {
+          "type": "subscribe_callback [string]", // コールバックの種類（subscribe コールバックの場合）
+          "topic_name": "topic name [string]",   // subscribe するトピック名
+          "symbol": "subscribe_callback_symbol [string]",      // コールバックのシンボル名
+          "publish_topic_names": [               // コールバックが publish するトピックのリスト
+            "/topic_name" [string],              // ※ トピック名
+		  ],
+          "subsequent_callback_symbols": [       // ノード内で後続するコールバックのリスト
+                                                 // ※ コールバックのシンボル名
+		  ],
+        }
+      ],
+      "unlinked_publish_topic_names": [ // ノードがpublishするトピック名のリスト。
+	                                    // 対応するコールバックが不明なもの。
+        "/topic_name [string]"          // ※ トピック名。 対応するコールバックの"publish_topic_names"に移す。
+      ]
+    }
+  ]
+}
+```
+
+
+
+## テンプレートの修正
+
+テンプレートでは、コールバックの依存関係など一部の記述がされていません。
+それらの項目は手動での修正が必要になります。
+
+## End-to-End の始点と終点を設定
+1. 始点となるノードの "start_node" を true に変更します。
+2. 終点となるノードの "end_node" を true に変更します。
+
+### コールバック関数とpublishするトピック名の紐付け
+
+1. 出力したテンプレート内の "unlinked_publish_topic_names" には、どのコールバックが publish しているか不明なトピック名が列挙されます。
+2. "unlinked_publish_topic_names" に列挙されたトピック名を、対応するコールバックの"publish_topic_names"に移します。
+3. "unlinked_publish_topic_names" が空になるまで行ってください。  
+
+
+### コールバック関数間の依存関係の記述
+
+1. ノード内にコールバック間の依存関係が存在する場合、
+   "subsequent_callback_symbols"に後続するコールバックのシンボル名を記述します。
+   シンボル名は "symbol" からコピーしてください。
+2. 各ノード内でコールバック依存関係を記述してください。
+
+
+
+## パスの確認
+
+記述したパスが正しいことを確認します。
+analysis/path_check.ipynb を参考に、両ファイルを読み込んでください。
+
+### ノード間の依存関係の確認
+
+```python
+for path in app.paths:
+    print()
+    print(path.child_names)
+```
+
+ノード間のパスが以下のように出力されます。
+ノード名が「--」で連結された形で出力されます。
+
+```
+sensor_dummy_node--no_dependency_node--sub_dependency_node--timer_dependency_node--actuator_dummy_node
+
+sensor_dummy_node--no_dependency_node--sub_dependency_node--actuator_dummy_node
+
+sensor_dummy_node--sub_dependency_node--actuator_dummy_node
+```
+
+### コールバック間の依存関係の確認
+
+```python
+for node in app.nodes:
+    print()
+    print(node.name)
+    for path in node.paths:
+        print(path.child_names)
+```
+ノード内のパスが以下のように出力されます。
+コールバックのシンボル名が「--」で連結された形で出力されます。
+
+```
+
+timer_dependency_node
+TimerDependencyNode::TimerDependencyNode()::{lambda()#2}
+TimerDependencyNode::TimerDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#1}--TimerDependencyNode::TimerDependencyNode()::{lambda()#2}
+
+no_dependency_node
+NoDependencyNode::NoDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#1}
+
+actuator_dummy_node
+ActuatorDummy::ActuatorDummy()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#1}
+ActuatorDummy::ActuatorDummy()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#2}
+
+sub_dependency_node
+SubDependencyNode::SubDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#1}
+SubDependencyNode::SubDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#1}--SubDependencyNode::SubDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#2}
+SubDependencyNode::SubDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#2}
+
+sensor_dummy_node
+SensorDummy::SensorDummy()::{lambda()#1}
+SensorDummy::SensorDummy()::{lambda()#2}
+```
