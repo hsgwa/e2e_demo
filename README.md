@@ -20,7 +20,7 @@ wget https://raw.githubusercontent.com/ros2/ros2/foxy/ros2.repos
 vcs import src < ros2.repos
 
 cd src/ros-tracing/ros2_tracing
-git remote add forked https://gitlab.com/HasegawaAtsushi/ros2_tracing
+git remote add forked https://gitlab.com/HasegawaAtsushi/ros2_tracing.git
 git pull forked
 git checkout -b devel_e2e_measurement forked/devel_e2e_measurement
 
