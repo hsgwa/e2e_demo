@@ -8,7 +8,7 @@ Here is a result of 'rqt_graph'
 
 ### Install LTTng
 
-See [micro-ROS tutorial](https://micro-ros.github.io/docs/tutorials/advanced/tracing/).
+See [micro-ROS tutorial](https://micro-ros.github.io/docs/tutorials/advanced/tracing/) and [lttng.org](https://lttng.org/docs/).
 
 ### build forked-foxy
 
