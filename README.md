@@ -16,20 +16,9 @@ See [micro-ROS tutorial](https://micro-ros.github.io/docs/tutorials/advanced/tra
 mkdir -p ~/ros2_foxy_fork/src
 cd ~/ros2_foxy_fork
 
-wget https://raw.githubusercontent.com/ros2/ros2/foxy/ros2.repos
+wget https://gist.githubusercontent.com/hsgwa/bf2ca762072fa87a86df3e13a0d8b2d5/raw/09233cc352fbb8a2a0989bd60bcef3bda15cbbeb/ros2.repos
 vcs import src < ros2.repos
 
-cd src/ros-tracing/ros2_tracing
-git remote add forked https://gitlab.com/HasegawaAtsushi/ros2_tracing.git
-git pull forked
-git checkout -b devel_e2e_measurement forked/devel_e2e_measurement
-
-cd ~/ros2_foxy_fork/src/ros2/rclcpp
-git remote add forked https://github.com/hsgwa/rclcpp.git
-git pull forked
-git checkout -b devel_e2e_measurement forked/devel_e2e_measurement
-
-cd ~/ros2_foxy_fork/
 colcon build --symlink-install
 ```
 
@@ -41,8 +30,6 @@ mkdir -p ~/ros2_trace_test/src
 
 cd ~/ros2_trace_test/src
 git clone https://gitlab.com/HasegawaAtsushi/tracetools_analysis.git -b devel_e2e_measurement
-
-cd ~/ros2_trace_test/src
 git clone https://github.com/hsgwa/e2e_demo.git
 
 cd ~/ros2_trace_test
@@ -133,7 +120,7 @@ Add subsequent callback symbol to "subsequent_callback_symbols".
 		  ],
         }
       ],
-      "unlinked_publish_topic_names": [ // ノードがpublishするトピック名のリスト。
+      "unlinked_publish_topic_names": [ // ノードが publish するトピック名のリスト。
 	                                    // 対応するコールバックが不明なもの。
         "/topic_name [string]"          // ※ トピック名。 対応するコールバックの"publish_topic_names"に移す。
       ]
@@ -153,7 +140,7 @@ Add subsequent callback symbol to "subsequent_callback_symbols".
 1. 始点となるノードの "start_node" を true に変更します。
 2. 終点となるノードの "end_node" を true に変更します。
 
-### コールバック関数とpublishするトピック名の紐付け
+### コールバック関数と publish するトピック名の紐付け
 
 1. 出力したテンプレート内の "unlinked_publish_topic_names" には、どのコールバックが publish しているか不明なトピック名が列挙されます。
 2. "unlinked_publish_topic_names" に列挙されたトピック名を、対応するコールバックの"publish_topic_names"に移します。
