@@ -1,8 +1,18 @@
 {
+  "target_path": {
+    "start_node_name": "",
+    "end_node_name": ""
+  },
   "nodes": [
     {
-      "name": "sub_dependency_node",
-      "namespace": "/",
+      "name": "/sub_dependency_node",
+      "callback_dependency": {
+        "": ""
+      },
+      "publish": {
+        "/topic5": "",
+        "/topic4": ""
+      },
       "callbacks": [
         {
           "type": "subscribe_callback",
@@ -14,39 +24,30 @@
           "topic_name": "/topic2",
           "symbol": "SubDependencyNode::SubDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#2}"
         }
-      ],
-      "callback_dependency": {
-        "": ""
-      },
-      "publish": {
-        "/topic5": "",
-        "/topic4": ""
-      },
-      "start_node": false,
-      "end_node": false
+      ]
     },
     {
-      "name": "no_dependency_node",
-      "namespace": "/",
+      "name": "/no_dependency_node",
+      "publish": {
+        "/topic3": "NoDependencyNode::NoDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#1}"
+      },
       "callbacks": [
         {
           "type": "subscribe_callback",
           "topic_name": "/topic1",
           "symbol": "NoDependencyNode::NoDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#1}"
         }
-      ],
+      ]
+    },
+    {
+      "name": "/sensor_dummy_node",
       "callback_dependency": {
         "": ""
       },
       "publish": {
-        "/topic3": ""
+        "/topic1": "",
+        "/topic2": ""
       },
-      "start_node": false,
-      "end_node": false
-    },
-    {
-      "name": "sensor_dummy_node",
-      "namespace": "/",
       "callbacks": [
         {
           "type": "timer_callback",
@@ -58,20 +59,16 @@
           "period": 142857142.0,
           "symbol": "SensorDummy::SensorDummy()::{lambda()#2}"
         }
-      ],
+      ]
+    },
+    {
+      "name": "/timer_dependency_node",
       "callback_dependency": {
         "": ""
       },
       "publish": {
-        "/topic1": "",
-        "/topic2": ""
+        "/topic6": ""
       },
-      "start_node": false,
-      "end_node": false
-    },
-    {
-      "name": "timer_dependency_node",
-      "namespace": "/",
       "callbacks": [
         {
           "type": "timer_callback",
@@ -83,19 +80,13 @@
           "topic_name": "/topic4",
           "symbol": "TimerDependencyNode::TimerDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#1}"
         }
-      ],
+      ]
+    },
+    {
+      "name": "/actuator_dummy_node",
       "callback_dependency": {
         "": ""
       },
-      "publish": {
-        "/topic6": ""
-      },
-      "start_node": false,
-      "end_node": false
-    },
-    {
-      "name": "actuator_dummy_node",
-      "namespace": "/",
       "callbacks": [
         {
           "type": "subscribe_callback",
@@ -107,15 +98,7 @@
           "topic_name": "/topic6",
           "symbol": "ActuatorDummy::ActuatorDummy()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#2}"
         }
-      ],
-      "callback_dependency": {
-        "": ""
-      },
-      "publish": {
-        "": ""
-      },
-      "start_node": false,
-      "end_node": false
+      ]
     }
   ]
 }
