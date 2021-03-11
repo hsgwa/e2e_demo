@@ -1,7 +1,7 @@
 {
   "target_path": {
-    "start_node_name": "/sensor_dummy_node",
-    "end_node_name": "/actuator_dummy_node"
+    "start_node_name": "",
+    "end_node_name": ""
   },
   "nodes": [
     {
@@ -25,7 +25,7 @@
     {
       "name": "/clock_publisher",
       "publish": {
-        "/clock": "ClockPublisher::ClockPublisher()::{lambda()#1}"
+        "/clock": ""
       },
       "callbacks": [
         {
@@ -41,8 +41,8 @@
         "": ""
       },
       "publish": {
-        "/topic1": "SensorDummy::SensorDummy()::{lambda()#1}",
-        "/topic2": "SensorDummy::SensorDummy()::{lambda()#2}"
+        "/topic1": "",
+        "/topic2": ""
       },
       "callbacks": [
         {
@@ -60,7 +60,7 @@
     {
       "name": "/no_dependency_node",
       "publish": {
-        "/topic3": "NoDependencyNode::NoDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#1}"
+        "/topic3": ""
       },
       "callbacks": [
         {
@@ -76,7 +76,7 @@
           "TimerDependencyNode::TimerDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#1}" : "TimerDependencyNode::TimerDependencyNode()::{lambda()#2}"
       },
       "publish": {
-        "/topic6": "TimerDependencyNode::TimerDependencyNode()::{lambda()#2}"
+        "/topic6": ""
       },
       "callbacks": [
         {
@@ -97,8 +97,8 @@
         "SubDependencyNode::SubDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#1}": "SubDependencyNode::SubDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#2}"
       },
       "publish": {
-        "/topic5": "SubDependencyNode::SubDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#1}",
-        "/topic4": "SubDependencyNode::SubDependencyNode()::{lambda(std::unique_ptr<sensor_msgs::msg::Image>)#2}"
+        "/topic5": "",
+        "/topic4": ""
       },
       "callbacks": [
         {
