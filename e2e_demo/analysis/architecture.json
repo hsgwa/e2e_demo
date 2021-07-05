@@ -5,37 +5,6 @@
   },
   "nodes": [
     {
-      "name": "/clock_recorder",
-      "callback_dependency": {
-        "": ""
-      },
-      "callbacks": [
-        {
-          "type": "timer_callback",
-          "period": 1000000000,
-          "symbol": "ClockRecorder::ClockRecorder()::{lambda()#1}"
-        },
-        {
-          "type": "subscribe_callback",
-          "topic_name": "/clock",
-          "symbol": "void (rclcpp::TimeSource::?)(std::shared_ptr<rosgraph_msgs::msg::Clock>)"
-        }
-      ]
-    },
-    {
-      "name": "/clock_publisher",
-      "publish": {
-        "/clock": "ClockPublisher::ClockPublisher()::{lambda()#1}"
-      },
-      "callbacks": [
-        {
-          "type": "timer_callback",
-          "period": 100000000,
-          "symbol": "ClockPublisher::ClockPublisher()::{lambda()#1}"
-        }
-      ]
-    },
-    {
       "name": "/sensor_dummy_node",
       "callback_dependency": {
         "": ""
